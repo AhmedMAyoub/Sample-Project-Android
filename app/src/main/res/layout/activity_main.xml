@@ -10,9 +10,9 @@
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search_view"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:queryHint="Enter Name Here"
+            app:queryHint="@string/search_query_hint"
             android:theme="@style/AppSearchView"
             app:layout_constraintBottom_toTopOf="@id/recyclerview" />
 
@@ -25,6 +25,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_view"
             tools:itemCount="5"
-            tools:listitem="@layout/layout_rv_user_search" />
+            tools:listitem="@layout/layout_rv_user_search"
+            android:paddingBottom="45dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
