@@ -26,7 +26,7 @@ class MainAdapter : RecyclerView.Adapter<UsersListViewHolder>() {
     override fun onBindViewHolder(holder: UsersListViewHolder, position: Int) {
         val user = users[position]
         holder.binding.userLogin.text = user.login
-        Glide.with(holder.itemView.context).load(user.avatarUrl)    // TODO: Change it to placeholder
+        Glide.with(holder.itemView.context).load(user.avatarUrl).placeholder(R.drawable.placeholder_image)
             .into(holder.binding.userAvatar)
 
     }
