@@ -3,6 +3,7 @@ package com.example.sampleprojectayoub
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.sampleprojectayoub.databinding.ActivityMainBinding
@@ -41,6 +42,18 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "errorMessage: $it")
         })
 
-        viewModel.getAllUsers()
+        val searchview = binding.searchView
+        searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+
+            override fun onQueryTextSubmit(p0: String): Boolean {
+                viewModel.getAllUsers(p0)
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String): Boolean {
+                return false
+            }
+
+        })
     }
 }

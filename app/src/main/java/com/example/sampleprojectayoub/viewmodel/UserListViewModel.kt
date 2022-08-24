@@ -8,14 +8,15 @@ import com.example.sampleprojectayoub.repository.MainRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.Query
 
 class UserListViewModel(private val repository: MainRepository) : ViewModel() {
 
     val userList = MutableLiveData<List<User>>()
     val errorMessage = MutableLiveData<String>()
 
-    fun getAllUsers() {
-        val response = repository.getAllUsers()
+    fun getAllUsers(@Query("q") username : String) {
+        val response = repository.getAllUsers(username)
         response.enqueue(object : Callback<UsersList> {
             override fun onResponse(call: Call<UsersList>, response: Response<UsersList>) {
                 userList.postValue(response.body()?.uList)
