@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.example.sampleprojectayoub.databinding.ActivityMainBinding
+import com.example.sampleprojectayoub.model.User
 import com.example.sampleprojectayoub.repository.MainRepository
 import com.example.sampleprojectayoub.viewmodel.UserListViewModel
 
@@ -35,7 +39,18 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.userList.observe(this, Observer {
             Log.d(TAG, "userList: $it")
-            adapter.setUsersList(it)
+            if (adapter.users != null && it != null)
+            {
+                adapter.setUsersList(adapter.users + it)
+            }
+            else if (adapter.users == null)
+            {
+                adapter.setUsersList(it)
+            }
+            else
+            {
+
+            }
         })
 
         viewModel.errorMessage.observe(this, Observer {
@@ -46,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
 
             override fun onQueryTextSubmit(p0: String): Boolean {
+                adapter.setUsersList(emptyList())
                 viewModel.getAllUsers(p0)
                 return false
             }
@@ -54,6 +70,22 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
 
+        })
+
+        val recyclerview = binding.recyclerview
+        recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener()
+        {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if (!recyclerView.canScrollVertically(1)){
+                    viewModel.getMoreUsers()
+                }
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                return
+            }
         })
     }
 }
